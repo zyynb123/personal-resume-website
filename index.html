@@ -215,6 +215,125 @@
     .skill-tag:hover { background: var(--tag-bg); color: var(--text); }
   }
 
+  /* ── Portfolio ── */
+  .portfolio-filters {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px;
+  }
+  .filter-btn {
+    padding: 8px 22px; border-radius: 24px; border: 1px solid var(--border);
+    background: var(--card-bg); color: var(--text); font-size: 0.88rem;
+    cursor: pointer; transition: all 0.25s; font-family: inherit;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  .portfolio-item {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .portfolio-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+  }
+  .portfolio-item.hidden { display: none; }
+  .portfolio-image {
+    position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden;
+    background: linear-gradient(135deg, #f5f0e8 0%, #e8e4df 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .portfolio-image img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.5s ease;
+  }
+  .portfolio-item:hover .portfolio-image img { transform: scale(1.06); }
+  .portfolio-placeholder {
+    font-size: 3rem; opacity: 0.35; transition: opacity 0.3s;
+  }
+  .portfolio-item:hover .portfolio-placeholder { opacity: 0.2; }
+  .portfolio-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%);
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 20px; opacity: 0; transition: opacity 0.3s;
+  }
+  .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+  .portfolio-view {
+    color: #fff; font-size: 0.9rem; font-weight: 600;
+    padding: 8px 24px; border: 2px solid rgba(255,255,255,0.7);
+    border-radius: 20px; letter-spacing: 1px;
+  }
+  .portfolio-info { padding: 18px 20px; }
+  .portfolio-title {
+    font-size: 1.02rem; font-weight: 700; margin-bottom: 4px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .portfolio-cat {
+    font-size: 0.78rem; color: var(--accent); background: var(--tag-bg);
+    padding: 2px 10px; border-radius: 16px; font-weight: 500;
+  }
+  .portfolio-desc {
+    font-size: 0.85rem; color: var(--text-light); margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.88); display: flex; align-items: center;
+    justify-content: center; opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox-content {
+    max-width: 90vw; max-height: 90vh; position: relative;
+    background: var(--card-bg); border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    transform: scale(0.92); transition: transform 0.35s;
+  }
+  .lightbox.open .lightbox-content { transform: scale(1); }
+  .lightbox-content img { width: 100%; max-height: 70vh; object-fit: contain; display: block; background: #1a1a1a; }
+  .lightbox-body { padding: 28px 32px 24px; }
+  .lightbox-body h3 { font-size: 1.25rem; margin-bottom: 4px; }
+  .lightbox-body .lightbox-cat {
+    display: inline-block; font-size: 0.8rem; color: var(--accent);
+    background: var(--tag-bg); padding: 2px 12px; border-radius: 16px;
+    margin-bottom: 12px;
+  }
+  .lightbox-body p { color: var(--text-light); font-size: 0.93rem; line-height: 1.7; }
+  .lightbox-close {
+    position: absolute; top: 12px; right: 16px;
+    background: rgba(0,0,0,0.45); color: #fff; border: none;
+    width: 36px; height: 36px; border-radius: 50%; font-size: 1.3rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; z-index: 1;
+  }
+  .lightbox-close:hover { background: rgba(0,0,0,0.7); }
+  .lightbox-prev, .lightbox-next {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.12); color: #fff; border: none;
+    width: 44px; height: 44px; border-radius: 50%; font-size: 1.4rem;
+    cursor: pointer; transition: background 0.2s; z-index: 1;
+  }
+  .lightbox-prev { left: 16px; }
+  .lightbox-next { right: 16px; }
+  .lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,0.25); }
+
+  @media (max-width: 640px) {
+    .portfolio-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+    .portfolio-info { padding: 12px 14px; }
+    .portfolio-title { font-size: 0.92rem; }
+    .portfolio-placeholder { font-size: 2rem; }
+    .lightbox-body { padding: 18px 20px 16px; }
+    .lightbox-prev, .lightbox-next { width: 36px; height: 36px; font-size: 1.1rem; }
+  }
+
   /* ── Animations ── */
   .fade-in {
     opacity: 0; transform: translateY(20px);
@@ -234,6 +353,7 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">关于</a></li>
+      <li><a href="#portfolio">作品集</a></li>
       <li><a href="#education">教育</a></li>
       <li><a href="#experience">经历</a></li>
       <li><a href="#projects">项目</a></li>
@@ -270,10 +390,128 @@
   </div>
 </section>
 
-<!-- Education -->
-<section class="section section-alt" id="education">
+<!-- Portfolio -->
+<section class="section section-alt" id="portfolio">
   <div class="section-inner">
-    <h2 class="section-title"><span class="num">02</span> 教育背景</h2>
+    <h2 class="section-title"><span class="num">02</span> 作品集展示</h2>
+
+    <div class="portfolio-filters">
+      <button class="filter-btn active" data-filter="all">全部作品</button>
+      <button class="filter-btn" data-filter="furniture">家具设计</button>
+      <button class="filter-btn" data-filter="ai">AI 生成</button>
+      <button class="filter-btn" data-filter="sketch">手绘草图</button>
+      <button class="filter-btn" data-filter="render">效果图</button>
+    </div>
+
+    <div class="portfolio-grid">
+
+      <div class="portfolio-item fade-in" data-category="furniture" data-title="新中式圈椅设计" data-desc="融合传统明式家具线条与现代人体工学的新中式圈椅。采用黑胡桃木为主材，榫卯结构，整体造型简洁优雅，兼顾舒适度与文化韵味。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E🪑%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3E新中式·圈椅%3C/text%3E%3C/svg%3E" alt="新中式圈椅设计">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">新中式圈椅设计<span class="portfolio-cat">家具设计</span></h3>
+          <p class="portfolio-desc">传统明式家具与现代人体工学的融合之作</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="ai" data-title="AI 客厅空间生成" data-desc="使用 Stable Diffusion + ComfyUI 工作流，通过 ControlNet 精确控制家具形态，LoRA 微调材质风格，生成一系列现代简约客厅空间概念方案。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E🤖%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3EAI·客厅空间%3C/text%3E%3C/svg%3E" alt="AI 客厅空间生成">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">AI 客厅空间生成<span class="portfolio-cat">AI 生成</span></h3>
+          <p class="portfolio-desc">SD + ControlNet 精确控制家具形态与风格</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="sketch" data-title="休闲椅手绘设计稿" data-desc="以炭笔和马克笔手绘的现代休闲椅设计稿，从灵感草图到三视图的完整设计过程记录。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E✏️%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3E手绘·休闲椅%3C/text%3E%3C/svg%3E" alt="休闲椅手绘设计稿">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">休闲椅手绘设计稿<span class="portfolio-cat">手绘草图</span></h3>
+          <p class="portfolio-desc">炭笔 + 马克笔手绘，灵感草图到三视图全过程</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="furniture" data-title="模块化书柜系统" data-desc="可自由组合的模块化书柜设计，用户可根据空间需求灵活拼接。采用多层实木板，表面哑光处理，兼具实用性与装饰性。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E📚%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3E模块化·书柜%3C/text%3E%3C/svg%3E" alt="模块化书柜系统">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">模块化书柜系统<span class="portfolio-cat">家具设计</span></h3>
+          <p class="portfolio-desc">自由组合的模块化书柜，灵活适配各类空间</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="render" data-title="北欧风卧室渲染" data-desc="使用 3DMAX + V-Ray 渲染的北欧风格卧室效果图。从硬装到软装的全案设计，注重自然光线与材质质感的表现。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E🛏️%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3E3D·卧室渲染%3C/text%3E%3C/svg%3E" alt="北欧风卧室渲染">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">北欧风卧室渲染<span class="portfolio-cat">效果图</span></h3>
+          <p class="portfolio-desc">3DMAX + V-Ray 全案设计，自然光与材质表现</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="ai" data-title="LoRA 家具风格迁移" data-desc="基于 ComfyUI + LoRA 微调模型，实现将传统中式家具造型迁移至现代简约风格，探索 AI 在保留文化基因的同时进行设计创新。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E🎨%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3ELoRA·风格迁移%3C/text%3E%3C/svg%3E" alt="LoRA 家具风格迁移">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">LoRA 家具风格迁移<span class="portfolio-cat">AI 生成</span></h3>
+          <p class="portfolio-desc">中式→现代风格迁移，AI 保留文化基因创新</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="sketch" data-title="茶室空间概念草图" data-desc="为茶文化空间绘制的概念草图，包含茶桌、博古架、屏风等元素的整体空间规划与氛围营造。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E🍵%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3E手绘·茶室%3C/text%3E%3C/svg%3E" alt="茶室空间概念草图">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">茶室空间概念草图<span class="portfolio-cat">手绘草图</span></h3>
+          <p class="portfolio-desc">茶文化空间规划，茶桌·博古架·屏风整体设计</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="render" data-title="现代办公空间漫游" data-desc="使用 SketchUp + Enscape 实时渲染的工作站办公空间漫游动画截图。展示开放式办公区家具布局与动线规划。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E💼%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3E3D·办公空间%3C/text%3E%3C/svg%3E" alt="现代办公空间漫游">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">现代办公空间漫游<span class="portfolio-cat">效果图</span></h3>
+          <p class="portfolio-desc">SU + Enscape 实时渲染，办公区布局与动线规划</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item fade-in" data-category="furniture" data-title="多功能变形餐桌" data-desc="针对小户型设计的可伸缩变形餐桌，收纳状态下为双人用，展开后可容纳6-8人。伸缩机构隐藏式设计，不影响外观整体性。">
+        <div class="portfolio-image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f0e8' width='400' height='300'/%3E%3Ctext x='200' y='140' text-anchor='middle' fill='%23b8860b' font-size='48'%3E🍽️%3C/text%3E%3Ctext x='200' y='190' text-anchor='middle' fill='%235a6c7d' font-size='14'%3E变形·餐桌%3C/text%3E%3C/svg%3E" alt="多功能变形餐桌">
+          <div class="portfolio-overlay"><span class="portfolio-view">查看详情</span></div>
+        </div>
+        <div class="portfolio-info">
+          <h3 class="portfolio-title">多功能变形餐桌<span class="portfolio-cat">家具设计</span></h3>
+          <p class="portfolio-desc">小户型可伸缩餐桌，2人→8人灵活切换</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section class="section" id="education">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="num">03</span> 教育背景</h2>
     <div class="timeline">
       <div class="timeline-item fade-in">
         <div class="timeline-dot"></div>
@@ -302,9 +540,9 @@
 </section>
 
 <!-- Work Experience -->
-<section class="section" id="experience">
+<section class="section section-alt" id="experience">
   <div class="section-inner">
-    <h2 class="section-title"><span class="num">03</span> 工作与实习经历</h2>
+    <h2 class="section-title"><span class="num">04</span> 工作与实习经历</h2>
     <div class="timeline">
       <div class="timeline-item fade-in">
         <div class="timeline-dot"></div>
@@ -339,9 +577,9 @@
 </section>
 
 <!-- Projects -->
-<section class="section section-alt" id="projects">
+<section class="section" id="projects">
   <div class="section-inner">
-    <h2 class="section-title"><span class="num">04</span> 项目经验</h2>
+    <h2 class="section-title"><span class="num">05</span> 项目经验</h2>
 
     <div class="project-card fade-in">
       <div class="project-header">
@@ -389,9 +627,9 @@
 </section>
 
 <!-- Skills -->
-<section class="section" id="skills">
+<section class="section section-alt" id="skills">
   <div class="section-inner">
-    <h2 class="section-title"><span class="num">05</span> 专业技能</h2>
+    <h2 class="section-title"><span class="num">06</span> 专业技能</h2>
     <div class="skills-grid">
       <div class="skill-category fade-in">
         <div class="skill-cat-title">🎨 设计工具</div>
@@ -426,9 +664,9 @@
 </section>
 
 <!-- Awards & Certificates -->
-<section class="section section-alt" id="awards">
+<section class="section" id="awards">
   <div class="section-inner">
-    <h2 class="section-title"><span class="num">06</span> 证书与荣誉</h2>
+    <h2 class="section-title"><span class="num">07</span> 证书与荣誉</h2>
     <div class="award-list">
       <div class="award-item fade-in">
         <div class="award-icon">🏆</div>
@@ -469,6 +707,21 @@
   </div>
 </section>
 
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <button class="lightbox-prev" id="lightboxPrev">&#8249;</button>
+    <button class="lightbox-next" id="lightboxNext">&#8250;</button>
+    <img src="" alt="" id="lightboxImg">
+    <div class="lightbox-body">
+      <h3 id="lightboxTitle"></h3>
+      <span class="lightbox-cat" id="lightboxCat"></span>
+      <p id="lightboxDesc"></p>
+    </div>
+  </div>
+</div>
+
 <!-- Footer -->
 <footer class="footer">
   <p>© 2026 张誉耀 · 感谢您的关注</p>
@@ -508,6 +761,99 @@
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ── Portfolio filtering ──
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.getAttribute('data-filter');
+      portfolioItems.forEach(item => {
+        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // ── Lightbox ──
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxCat = document.getElementById('lightboxCat');
+  const lightboxDesc = document.getElementById('lightboxDesc');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+
+  let currentLightboxItems = [];
+  let currentLightboxIndex = 0;
+
+  function openLightbox(items, index) {
+    currentLightboxItems = items;
+    currentLightboxIndex = index;
+    updateLightboxContent();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function updateLightboxContent() {
+    const item = currentLightboxItems[currentLightboxIndex];
+    const img = item.querySelector('img');
+    const titleEl = item.querySelector('.portfolio-title');
+    const catEl = item.querySelector('.portfolio-cat');
+    const descEl = item.querySelector('.portfolio-desc');
+
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    const itemTitle = item.getAttribute('data-title');
+    lightboxTitle.textContent = itemTitle || (titleEl ? titleEl.childNodes[0].textContent.trim() : '');
+    if (catEl) lightboxCat.textContent = catEl.textContent;
+    lightboxDesc.textContent = item.getAttribute('data-desc') || (descEl ? descEl.textContent : '');
+
+    lightboxPrev.style.display = currentLightboxIndex > 0 ? '' : 'none';
+    lightboxNext.style.display = currentLightboxIndex < currentLightboxItems.length - 1 ? '' : 'none';
+  }
+
+  function navigateLightbox(dir) {
+    currentLightboxIndex += dir;
+    if (currentLightboxIndex < 0) currentLightboxIndex = 0;
+    if (currentLightboxIndex >= currentLightboxItems.length) currentLightboxIndex = currentLightboxItems.length - 1;
+    updateLightboxContent();
+  }
+
+  // Open lightbox on portfolio item click
+  portfolioItems.forEach((item, i) => {
+    item.addEventListener('click', () => {
+      const visibleItems = [...portfolioItems].filter(el => !el.classList.contains('hidden'));
+      const idx = visibleItems.indexOf(item);
+      openLightbox(visibleItems, idx >= 0 ? idx : 0);
+    });
+  });
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
+  lightboxNext.addEventListener('click', () => navigateLightbox(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
 </script>
 </body>
 </html>
