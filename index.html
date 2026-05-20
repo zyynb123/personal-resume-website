@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张誉耀 - 个人简历</title>
+<style>
+  :root {
+    --bg: #fafaf8;
+    --text: #2c3e50;
+    --text-light: #5a6c7d;
+    --accent: #b8860b;
+    --accent-light: #d4a853;
+    --border: #e8e4df;
+    --card-bg: #ffffff;
+    --tag-bg: #f5f0e8;
+    --shadow: 0 2px 16px rgba(0,0,0,0.06);
+    --radius: 12px;
+    --max-width: 860px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Navigation ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,250,248,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .nav.shadow { box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
+  .nav-inner {
+    max-width: var(--max-width); margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 56px;
+  }
+  .nav-name { font-size: 1.1rem; font-weight: 700; color: var(--accent); letter-spacing: 0.5px; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--text-light); font-size: 0.9rem;
+    transition: color 0.2s; position: relative;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+    background: var(--accent); transition: width 0.25s;
+  }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; transition: 0.3s; }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 120px 24px 64px; text-align: center;
+    background: linear-gradient(180deg, #fafaf8 0%, #f5f0e8 100%);
+  }
+  .hero-avatar {
+    width: 130px; height: 130px; border-radius: 50%;
+    margin: 0 auto 24px;
+    box-shadow: 0 8px 32px rgba(184,134,11,0.25);
+    overflow: hidden;
+    border: 4px solid #fff;
+  }
+  .hero-avatar img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .hero h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
+  .hero .subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 24px; }
+  .hero-contact {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 24px;
+    font-size: 0.92rem; color: var(--text-light);
+  }
+  .hero-contact span { display: flex; align-items: center; gap: 6px; }
+  .hero-contact .icon { font-size: 1.1rem; }
+
+  /* ── Sections ── */
+  .section { padding: 64px 24px; }
+  .section-alt { background: #fff; }
+  .section-inner { max-width: var(--max-width); margin: 0 auto; }
+
+  .section-title {
+    font-size: 1.5rem; font-weight: 700; margin-bottom: 36px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; padding-bottom: 16px;
+  }
+  .section-title::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 40px; height: 3px; background: var(--accent); border-radius: 2px;
+  }
+  .section-title .num {
+    font-size: 0.85rem; color: var(--accent); font-weight: 500;
+    font-family: "SF Mono", "Cascadia Code", monospace;
+  }
+
+  /* ── About ── */
+  .about-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;
+  }
+  .about-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px; text-align: center;
+    box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .about-card:hover { transform: translateY(-2px); box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+  .about-card .label { font-size: 0.82rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .about-card .value { font-size: 1.05rem; font-weight: 600; }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 7px; top: 4px; bottom: 4px;
+    width: 2px; background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 36px; }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .timeline-dot {
+    position: absolute; left: -28px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .timeline-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin-bottom: 4px; }
+  .timeline-title { font-size: 1.08rem; font-weight: 700; }
+  .timeline-sub { color: var(--text-light); font-size: 0.9rem; }
+  .timeline-date {
+    font-size: 0.82rem; color: var(--accent); font-weight: 500;
+    background: var(--tag-bg); padding: 2px 12px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .timeline-desc { color: var(--text-light); font-size: 0.93rem; margin-top: 8px; }
+  .timeline-desc ul { padding-left: 18px; }
+  .timeline-desc li { margin-bottom: 4px; }
+
+  /* ── Projects ── */
+  .project-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px; margin-bottom: 24px;
+    box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .project-card:hover { transform: translateY(-2px); box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+  .project-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  .project-name { font-size: 1.15rem; font-weight: 700; }
+  .project-role { font-size: 0.85rem; color: var(--accent); background: var(--tag-bg); padding: 2px 12px; border-radius: 20px; }
+  .project-body { color: var(--text-light); font-size: 0.93rem; }
+  .project-body ul { padding-left: 18px; }
+  .project-body li { margin-bottom: 6px; }
+
+  /* ── Skills ── */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .skill-category { margin-bottom: 8px; }
+  .skill-cat-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 12px; color: var(--accent); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag {
+    background: var(--tag-bg); color: var(--text);
+    padding: 6px 16px; border-radius: 20px; font-size: 0.88rem;
+    border: 1px solid var(--border); transition: all 0.2s;
+  }
+  .skill-tag:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* ── Certificate / Awards ── */
+  .award-list { display: grid; gap: 12px; }
+  .award-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow);
+  }
+  .award-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; color: #fff; flex-shrink: 0;
+  }
+  .award-info .award-name { font-weight: 600; }
+  .award-info .award-date { font-size: 0.82rem; color: var(--text-light); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center; padding: 40px 24px;
+    color: var(--text-light); font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 16px 24px; gap: 16px; }
+    .nav-toggle { display: block; }
+    .hero { padding: 100px 20px 48px; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero-contact { flex-direction: column; align-items: center; gap: 8px; }
+    .section { padding: 48px 20px; }
+    .section-title { font-size: 1.3rem; }
+    .timeline-header { flex-direction: column; gap: 4px; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Print ── */
+  @media print {
+    .nav { position: static; }
+    .hero { padding: 32px 0 24px; }
+    .section { padding: 24px 0; break-inside: avoid; }
+    .section-alt { background: none; }
+    .project-card, .about-card, .award-item { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+    .skill-tag:hover { background: var(--tag-bg); color: var(--text); }
+  }
+
+  /* ── Animations ── */
+  .fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <span class="nav-name">张誉耀</span>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#education">教育</a></li>
+      <li><a href="#experience">经历</a></li>
+      <li><a href="#projects">项目</a></li>
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#awards">证书</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-avatar"><img src="证件照.png" alt="张誉耀证件照"></div>
+  <h1>张誉耀</h1>
+  <p class="subtitle">家具设计 · AI产品探索者 · 硕士研究生</p>
+  <div class="hero-contact">
+    <span>📞 177-9985-1662</span>
+    <span>✉️ 1299315463@qq.com</span>
+    <span>📍 2001年 / 身高184cm</span>
+  </div>
+</header>
+
+<!-- About -->
+<section class="section" id="about">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="num">01</span> 基本信息</h2>
+    <div class="about-grid">
+      <div class="about-card fade-in"><div class="label">出生年份</div><div class="value">2001 / 07</div></div>
+      <div class="about-card fade-in"><div class="label">身高</div><div class="value">184 cm</div></div>
+      <div class="about-card fade-in"><div class="label">学历</div><div class="value">硕士研究生</div></div>
+      <div class="about-card fade-in"><div class="label">专业方向</div><div class="value">家具设计与工程</div></div>
+      <div class="about-card fade-in"><div class="label">所在地</div><div class="value">浙江 · 杭州</div></div>
+      <div class="about-card fade-in"><div class="label">语言能力</div><div class="value">CET-4</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section class="section section-alt" id="education">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="num">02</span> 教育背景</h2>
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <span class="timeline-title">浙江农林大学</span>
+          <span class="timeline-sub">硕士研究生 · 家具设计与工程</span>
+          <span class="timeline-date">2023.09 – 2026.06</span>
+        </div>
+        <div class="timeline-desc">
+          <ul><li>研究方向：AI + 家具设计</li><li>参与多项AI与家具设计交叉课题</li></ul>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <span class="timeline-title">浙江农林大学</span>
+          <span class="timeline-sub">本科 · 家具设计与工程</span>
+          <span class="timeline-date">2019.09 – 2023.06</span>
+        </div>
+        <div class="timeline-desc">
+          <ul><li>系统学习家具设计理论与实务</li><li>奠定扎实的设计基础与审美能力</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Work Experience -->
+<section class="section" id="experience">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="num">03</span> 工作与实习经历</h2>
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <span class="timeline-title">AI产品实习</span>
+          <span class="timeline-sub">AI家具设计方向</span>
+          <span class="timeline-date">2025.05 – 2026.06</span>
+        </div>
+        <div class="timeline-desc">
+          <ul>
+            <li>参与AI+家具设计产品探索与落地</li>
+            <li>运用AI工具进行家具概念设计验证</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <span class="timeline-title">工作经验</span>
+          <span class="timeline-sub">家具设计相关</span>
+          <span class="timeline-date">2022.10 – 2024.08</span>
+        </div>
+        <div class="timeline-desc">
+          <ul>
+            <li>参与家具设计项目从概念到落地的完整流程</li>
+            <li>熟练使用CAD/3DMAX/SU等设计工具进行产品设计</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="section section-alt" id="projects">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="num">04</span> 项目经验</h2>
+
+    <div class="project-card fade-in">
+      <div class="project-header">
+        <span class="project-name">Edu.AI</span>
+        <span class="project-role">AI + 教育产品</span>
+      </div>
+      <div class="project-body">
+        <ul>
+          <li>从0到1主导AI+教育产品方向探索</li>
+          <li>独立完成12项AI教育场景产品调研与方案设计</li>
+          <li>撰写AI教育产品PRD，推动产品概念验证</li>
+          <li>负责部分UI界面设计与交互原型制作</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-header">
+        <span class="project-name">lumi.AI</span>
+        <span class="project-role">AI 产品探索</span>
+      </div>
+      <div class="project-body">
+        <ul>
+          <li>参与AI产品"lumi.AI"从概念到落地全过程</li>
+          <li>负责产品需求文档（PRD）撰写</li>
+          <li>协同团队推进产品迭代与优化</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-header">
+        <span class="project-name">AI + AIGC 家具设计探索</span>
+        <span class="project-role">研究生课题</span>
+      </div>
+      <div class="project-body">
+        <ul>
+          <li>探索AI与AIGC技术在家具设计中的应用</li>
+          <li>使用ComfyUI + LoRa进行家具概念生成与设计优化</li>
+          <li>完成AI辅助家具设计方案汇报PPT与展示文档</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section class="section" id="skills">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="num">05</span> 专业技能</h2>
+    <div class="skills-grid">
+      <div class="skill-category fade-in">
+        <div class="skill-cat-title">🎨 设计工具</div>
+        <div class="skill-tags">
+          <span class="skill-tag">CAD</span>
+          <span class="skill-tag">3DMAX</span>
+          <span class="skill-tag">PS</span>
+          <span class="skill-tag">SU (SketchUp)</span>
+        </div>
+      </div>
+      <div class="skill-category fade-in">
+        <div class="skill-cat-title">🤖 AI 工具</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ComfyUI</span>
+          <span class="skill-tag">LoRa</span>
+          <span class="skill-tag">AIGC</span>
+          <span class="skill-tag">Stable Diffusion</span>
+        </div>
+      </div>
+      <div class="skill-category fade-in">
+        <div class="skill-cat-title">📋 产品能力</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PRD撰写</span>
+          <span class="skill-tag">UI设计</span>
+          <span class="skill-tag">产品调研</span>
+          <span class="skill-tag">项目管理</span>
+          <span class="skill-tag">PPT演示</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Awards & Certificates -->
+<section class="section section-alt" id="awards">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="num">06</span> 证书与荣誉</h2>
+    <div class="award-list">
+      <div class="award-item fade-in">
+        <div class="award-icon">🏆</div>
+        <div class="award-info">
+          <div class="award-name">荣誉称号</div>
+          <div class="award-date">2026.04</div>
+        </div>
+      </div>
+      <div class="award-item fade-in">
+        <div class="award-icon">⭐</div>
+        <div class="award-info">
+          <div class="award-name">优秀学生干部</div>
+          <div class="award-date">2025.11</div>
+        </div>
+      </div>
+      <div class="award-item fade-in">
+        <div class="award-icon">📜</div>
+        <div class="award-info">
+          <div class="award-name">优秀学生干部</div>
+          <div class="award-date">2024.11</div>
+        </div>
+      </div>
+      <div class="award-item fade-in">
+        <div class="award-icon">🎖️</div>
+        <div class="award-info">
+          <div class="award-name">先进标兵</div>
+          <div class="award-date">2024.11</div>
+        </div>
+      </div>
+      <div class="award-item fade-in">
+        <div class="award-icon">📝</div>
+        <div class="award-info">
+          <div class="award-name">CET-4 英语四级</div>
+          <div class="award-date"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>© 2026 张誉耀 · 感谢您的关注</p>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const toggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  // Close nav on link click (mobile)
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Active nav link highlight + shadow on scroll
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const nav = document.getElementById('nav');
+  const navAnchors = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('shadow', window.scrollY > 10);
+
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+    });
+    navAnchors.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Scroll-triggered fade-in animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
